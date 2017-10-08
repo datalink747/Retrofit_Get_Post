@@ -1,5 +1,6 @@
 package com.soussidev.kotlin.retrofit_get_post.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,12 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.soussidev.kotlin.retrofit_get_post.R;
 import com.soussidev.kotlin.retrofit_get_post.model.User;
 
 import java.util.List;
 
 import static com.soussidev.kotlin.retrofit_get_post.ListActivity.SPAN_COUNT_ONE;
+import static com.soussidev.kotlin.retrofit_get_post.MethodeGet.Constants.BASE_URL;
+
 
 /**
  * Created by Soussi on 06/10/2017.
@@ -27,11 +32,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ItemViewHolder
 
     private List<User> mUsers;
     private GridLayoutManager mLayoutManager;
+    private Context mcontext;
 
-
-    public UserAdapter(List<User> items, GridLayoutManager layoutManager) {
+    public UserAdapter(List<User> items, GridLayoutManager layoutManager,Context context) {
         mUsers = items;
         mLayoutManager = layoutManager;
+        mcontext = context;
     }
 
     @Override
@@ -47,10 +53,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ItemViewHolder
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        if (viewType == VIEW_TYPE_BIG) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_big, parent, false);
+        if (viewType == VIEW_TYPE_BIG) {//parent.getContext()
+            view = LayoutInflater.from(mcontext).inflate(R.layout.item_big, parent, false);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_small, parent, false);
+            view = LayoutInflater.from(mcontext).inflate(R.layout.item_small, parent, false);
         }
         return new ItemViewHolder(view, viewType);
     }
@@ -61,7 +67,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ItemViewHolder
         // final Item item = mItems.get(position % 4);
         final User user = mUsers.get(position );
         holder.title.setText(user.getNomUser());
-        holder.iv.setImageResource(R.mipmap.ic_launcher);
+        Glide.with(mcontext)
+               .load(BASE_URL+user.getImgUser())
+                .apply(RequestOptions.circleCropTransform())
+                .into(holder.iv);
+
+      //  holder.iv.setImageResource(R.mipmap.ic_launcher);
         if (getItemViewType(position) == VIEW_TYPE_BIG) {
             holder.info.setText(user.getNomUser() + " likes  ·  " + user.getPrenomUser() + " comments");
         }
@@ -69,7 +80,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ItemViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(),String.valueOf(user.getCinUser()), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mcontext,String.valueOf(user.getCinUser()), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -99,7 +110,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ItemViewHolder
                 title = (TextView) itemView.findViewById(R.id.title_small);
             }
 
+           /* itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos =getPosition();
+                    Toast.makeText(mcontext,String.valueOf(pos), Toast.LENGTH_SHORT).show();
+                }
+            });*/
+
         }
+
+
 
     }
 

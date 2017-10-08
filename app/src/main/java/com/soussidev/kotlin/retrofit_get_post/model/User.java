@@ -9,18 +9,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
 
-   /* @SerializedName("IdUser")
-    @Expose*/
+    @SerializedName("IdUser")
+    @Expose
     private int IdUser;
-   /* @SerializedName("NomUser")
-    @Expose*/
+    @SerializedName("NomUser")
+    @Expose
     private String NomUser;
-   /* @SerializedName("PrenomUser")
-    @Expose*/
+    @SerializedName("PrenomUser")
+    @Expose
     private String PrenomUser;
-    /*@SerializedName("CinUser")
-    @Expose*/
+    @SerializedName("CinUser")
+    @Expose
     private int CinUser;
+    @SerializedName("ImgUser")
+    @Expose
+    private String ImgUser;
     /*@SerializedName("TelUser")
     @Expose*/
    // private int TelUser;
@@ -31,7 +34,16 @@ public class User {
     @Expose*/
   //  private String PosetUser;
 
+
+
     public User() {
+    }
+
+    public User(String nomUser, String prenomUser, int cinUser, String imgUser) {
+        NomUser = nomUser;
+        PrenomUser = prenomUser;
+        CinUser = cinUser;
+        ImgUser = imgUser;
     }
 
     public int getIdUser() {
@@ -66,6 +78,14 @@ public class User {
         CinUser = cinUser;
     }
 
+    public String getImgUser() {
+        return ImgUser;
+    }
+
+    public void setImgUser(String imgUser) {
+        ImgUser = imgUser;
+    }
+
     /*public int getTelUser() {
         return TelUser;
     }
@@ -90,5 +110,6 @@ public class User {
         PosetUser = posetUser;
     }
 */
+
 
 }

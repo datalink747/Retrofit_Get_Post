@@ -28,7 +28,6 @@ import com.soussidev.kotlin.retrofit_get_post.rxSharedPref.RxSharedPreferences;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,18 +53,18 @@ public class ListActivity extends AppCompatActivity {
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("List of Users");
+       // toolbar.setTitle("List of Users");
         toolbar.setSubtitle("By Soussidev");
 
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
-        //Recyclerview
-        recyclerView = (RecyclerView) findViewById(R.id.rv);
+       AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
 
-        itemsuser =new ArrayList<>();
+
+
+
         //Call function getData()
         getData();
+
 
         //Init RxsharedPref
         sharedPreferences = getSharedPreferences("prefs", Context.MODE_PRIVATE);
@@ -108,10 +107,14 @@ public class ListActivity extends AppCompatActivity {
                     //Get span From RXPref to Layout Manager
                     gridLayoutManager = new GridLayoutManager(this, prefItem.getSpan_count());
                 });
+//Recyclerview
 
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(gridLayoutManager);
-        itemAdapter = new UserAdapter(itemsuser, gridLayoutManager);
+       // recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        itemAdapter = new UserAdapter(itemsuser, gridLayoutManager,ListActivity.this);
         recyclerView.setAdapter(itemAdapter);
+
 
 
         // btn add user
@@ -141,6 +144,7 @@ public class ListActivity extends AppCompatActivity {
     private void getData()
 
     {
+        itemsuser =new ArrayList<>();
 
         RequestInterface requestInterface = Constants.getClient().create(RequestInterface.class);
 
@@ -270,5 +274,8 @@ public class ListActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 
 }

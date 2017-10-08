@@ -1,5 +1,6 @@
 package com.soussidev.kotlin.retrofit_get_post.MethodeGet;
 
+import com.google.gson.annotations.SerializedName;
 import com.soussidev.kotlin.retrofit_get_post.model.User;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class ServerResponse {
 
     private String result;
     private String message;
+    @SerializedName(value="user")
     private List<User> user;
 
     public String getResult() {

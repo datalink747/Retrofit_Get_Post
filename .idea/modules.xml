@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Retrofit_Get_Post.iml" filepath="$PROJECT_DIR$/Retrofit_Get_Post.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rxvolley/rxvolley.iml" filepath="$PROJECT_DIR$/rxvolley/rxvolley.iml" />
     </modules>
   </component>
 </project>

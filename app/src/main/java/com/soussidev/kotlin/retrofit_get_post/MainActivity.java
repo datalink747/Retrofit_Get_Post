@@ -2,6 +2,7 @@ package com.soussidev.kotlin.retrofit_get_post;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -11,17 +12,28 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+
 import com.soussidev.kotlin.retrofit_get_post.MethodeGet.Constants;
 import com.soussidev.kotlin.retrofit_get_post.MethodeGet.RequestInterface;
 import com.soussidev.kotlin.retrofit_get_post.MethodeGet.ServerRequest;
 import com.soussidev.kotlin.retrofit_get_post.MethodeGet.ServerResponse;
 import com.soussidev.kotlin.retrofit_get_post.model.User;
+import com.soussidev.kotlin.rxvolley.okhttp3.OkHttpStack;
+import com.soussidev.kotlin.rxvolley.rxvolley.RxVolley;
+import com.soussidev.kotlin.rxvolley.rxvolley.client.HttpCallback;
+import com.soussidev.kotlin.rxvolley.rxvolley.client.HttpParams;
+import com.soussidev.kotlin.rxvolley.rxvolley.client.ProgressListener;
+import com.soussidev.kotlin.rxvolley.rxvolley.http.RequestQueue;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
+
+import static com.soussidev.kotlin.retrofit_get_post.MethodeGet.Constants.BASE_URL_GET_USER;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -38,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        RxVolley.setRequestQueue(RequestQueue.newRequestQueue(RxVolley.CACHE_FOLDER,
+                new OkHttpStack(new OkHttpClient())));
 
 
         initView();
@@ -87,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
                 //check EditText is not empty
                 if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(prenom) && !TextUtils.isEmpty(cin)) {
 
-                    adduser(name,prenom,cin);
+                  //  adduser(name,prenom,cin,name+".png");
+                    rxvolley(name,prenom,cin,name+"/images");
                 }else
                 {
                     Snackbar.make(view, "SVP! Remplir tout les champs ", Snackbar.LENGTH_LONG).show();
@@ -108,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
      * @param prenom
      */
 
-    private void  adduser(String name,String prenom,String cin)
+    private void  adduser(String name,String prenom,String cin,String img)
     {
         int cin_=Integer.valueOf(cin);
         //call service
@@ -118,10 +133,11 @@ public class MainActivity extends AppCompatActivity {
         user.setNomUser(name);
         user.setPrenomUser(prenom);
         user.setCinUser(cin_);
+        user.setImgUser("mohamed");
 
         ServerRequest request = new ServerRequest();
         request.setOperation(Constants.ADD_USER_OPERATION);
-        request.setUser(user);
+        request.setUser(new User(name,prenom,cin_,img));
 
         Call<ServerResponse> response = requestInterface.operation(request);
 
@@ -144,10 +160,42 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Log.d(Constants.TAG,"failed");
+                Log.d(Constants.TAG,t.toString());
 
                     Toast.makeText(MainActivity.this,t.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    public void rxvolley(String name,String prenom,String cin,String img)
+    {
+        HttpParams params = new HttpParams();
+
+        params.put("NomUser", name);
+        params.put("PrenomUser", prenom);
+        params.put("CinUser", cin);
+        params.put("ImgUser", img);
+
+        RxVolley.post(BASE_URL_GET_USER, params,
+                new ProgressListener() {
+                    @Override
+                    public void onProgress(long transferredBytes, long totalSize) {
+                        Log.d(Constants.TAG,transferredBytes + "==" + totalSize);
+                        Log.d(Constants.TAG,"=====looper" + (Thread.currentThread() == Looper.getMainLooper
+                                ().getThread()));
+                    }
+                }, new HttpCallback() {
+                    @Override
+                    public void onSuccess(String t) {
+                        Log.d(Constants.TAG,t);
+                        editName.setText("");
+                        editPrenom.setText("");
+                        editCin.setText("");
+                    }
+                });
+
+
     }
 
 
