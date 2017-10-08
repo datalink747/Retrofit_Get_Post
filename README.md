@@ -3,6 +3,7 @@ Retrofit GET DATA and POST DATA
 <br>
 [![Ansible Role](https://img.shields.io/badge/Developer-Soussidev-yellow.svg)]()
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)]()
+[![](https://jitpack.io/v/datalink747/Retrofit_Get_Post.svg)](https://jitpack.io/#datalink747/Retrofit_Get_Post)
 
 # Include:
 [![Ansible Role](https://img.shields.io/badge/Rx-Volley-ff2c94.svg?style=flat-square)](https://github.com/datalink747/Rx_java2_soussidev/blob/master/app/src/main/java/com/soussidev/kotlin/rx_java2_soussidev/RxSharedpref_fragment.java)
