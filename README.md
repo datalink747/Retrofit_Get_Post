@@ -7,6 +7,19 @@ Retrofit GET DATA and POST DATA
 # Include:
 [![Ansible Role](https://img.shields.io/badge/Rx-Volley-ff2c94.svg?style=flat-square)](https://github.com/datalink747/Rx_java2_soussidev/blob/master/app/src/main/java/com/soussidev/kotlin/rx_java2_soussidev/RxSharedpref_fragment.java)
 
+# Add dependencie to your project :
+
+```gradle
+repositories {
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile 'com.github.datalink747:Retrofit_Get_Post:1.0.1'
+}
+```
+
 
 # SDK Required
 + Target sdk:<br>
