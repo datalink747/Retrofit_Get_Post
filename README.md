@@ -21,6 +21,39 @@ dependencies {
 }
 ```
 
+ Code :
+> RxVolley
+```java
+ public void rxvolley(String name,String prenom,String cin,String img)
+    {
+        HttpParams params = new HttpParams();
+
+        params.put("NomUser", name);
+        params.put("PrenomUser", prenom);
+        params.put("CinUser", cin);
+        params.put("ImgUser", img);
+
+        RxVolley.post(BASE_URL_GET_USER, params,
+                (transferredBytes, totalSize) -> {
+                    Log.d(Constants.TAG,transferredBytes + "==" + totalSize);
+                    Log.d(Constants.TAG,"=====looper" + (Thread.currentThread() == Looper.getMainLooper
+                            ().getThread()));
+                }, new HttpCallback() {
+                    @Override
+                    public void onSuccess(String t) {
+                        Log.d(Constants.TAG,t);
+                        editName.setText("");
+                        editPrenom.setText("");
+                        editCin.setText("");
+                    }
+                });
+
+
+    }
+
+
+```
+
 
 # SDK Required
 + Target sdk:<br>
